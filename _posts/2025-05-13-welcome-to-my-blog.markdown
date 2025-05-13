@@ -24,6 +24,4 @@ Faith.
 
 Fin.
 
-
-
-
+<small>P.S. Dmytro, I hope you don't brainrot too much.</small>
