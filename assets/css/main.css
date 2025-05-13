@@ -145,6 +145,10 @@ main {
   letter-spacing: -0.5px;
 }
 
+.post-content h2 {
+  font-size: 1.2rem;
+}
+
 .post-content p {
   margin-bottom: 1.5rem;
 }

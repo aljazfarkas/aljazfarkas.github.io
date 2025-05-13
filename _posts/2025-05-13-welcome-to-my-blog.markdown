@@ -7,14 +7,14 @@ categories: [blog, introduction]
 
 Welcome to my blog! This is a blog where I complain about lazy strength players in Elden ring, that are too afraid to use their brains and think.
 
-# The problem
+## The problem
 
 The first thing that comes to mind is that the game is too easy.
 They just bonk bonk.
 Then comes brainrot.
 No strategy, no thinking, just bonk.
 
-# The solution
+## The solution
 
 The solution is simple.
 Use your brain.
