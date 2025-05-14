@@ -23,8 +23,7 @@ email: farkas.aljaz@gmail.com
 description: Personal blog and portfolio
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://aljazfarkas.github.io" # the base hostname & protocol for your site
-twitter_username: jekyllrb
-github_username:  jekyll
+github_username: aljazfarkas
 
 # Build settings
 # Remove or comment out navigation and blog settings to hide all blog features
