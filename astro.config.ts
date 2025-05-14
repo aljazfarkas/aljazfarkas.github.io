@@ -1,137 +1,40 @@
-import type { Element } from 'hast'
-import mdx from '@astrojs/mdx'
-import partytown from '@astrojs/partytown'
-import sitemap from '@astrojs/sitemap'
-import robotsTxt from 'astro-robots-txt'
-import { defineConfig } from 'astro/config'
-import rehypeAutolinkHeadings from 'rehype-autolink-headings'
-import rehypeExternalLinks from 'rehype-external-links'
-import rehypeKatex from 'rehype-katex'
-import rehypeSlug from 'rehype-slug'
-import remarkDirective from 'remark-directive'
-import remarkMath from 'remark-math'
-import { visit } from 'unist-util-visit'
-import UnoCSS from 'unocss/astro'
-import { themeConfig } from './src/config'
-import { langMap } from './src/i18n/config'
-import { rehypeImgToFigure } from './src/plugins/rehype-img-to-figure.mjs'
-import { remarkAdmonitions } from './src/plugins/remark-admonitions.mjs'
-import { remarkGithubCard } from './src/plugins/remark-github-card.mjs'
-import { remarkReadingTime } from './src/plugins/remark-reading-time.mjs'
+import { defineConfig } from "astro/config";
+import tailwindcss from "@tailwindcss/vite";
+import sitemap from "@astrojs/sitemap";
+import remarkToc from "remark-toc";
+import remarkCollapse from "remark-collapse";
+import { SITE } from "./src/config";
 
-const url = themeConfig.site.url
-const locale = themeConfig.global.locale
-const linkPrefetch = themeConfig.preload.linkPrefetch
-const imageHostURL = themeConfig.preload.imageHostURL
-// Configure domains and remotePatterns to optimize remote images in Markdown files using ![alt](src) syntax
-// Docs: https://docs.astro.build/en/guides/images/#authorizing-remote-images
-const imageConfig = imageHostURL
-  ? { image: { domains: [imageHostURL], remotePatterns: [{ protocol: 'https' }] } }
-  : {}
-
+// https://astro.build/config
 export default defineConfig({
-  site: url,
-  base: '/',
-  trailingSlash: 'always',
-  prefetch: {
-    prefetchAll: true,
-    defaultStrategy: linkPrefetch,
-  },
-  ...imageConfig,
-  i18n: {
-    locales: Object.entries(langMap).map(([path, codes]) => ({
-      path,
-      codes: codes as [string, ...string[]],
-    })),
-    defaultLocale: locale,
-  },
+  site: SITE.website,
   integrations: [
-    UnoCSS({
-      injectReset: true,
+    sitemap({
+      filter: page => SITE.showArchives || !page.endsWith("/archives"),
     }),
-    mdx(),
-    partytown({
-      config: {
-        forward: ['dataLayer.push'],
-      },
-    }),
-    sitemap(),
-    robotsTxt(),
   ],
   markdown: {
-    remarkPlugins: [
-      remarkDirective,
-      remarkMath,
-      remarkAdmonitions,
-      remarkGithubCard,
-      remarkReadingTime,
-    ],
-    rehypePlugins: [
-      rehypeKatex,
-      rehypeSlug,
-      rehypeImgToFigure,
-      [
-        rehypeAutolinkHeadings,
-        {
-          behavior: 'append',
-          test: ['h1', 'h2', 'h3', 'h4'],
-          content: {
-            type: 'element',
-            tagName: 'svg',
-            properties: {
-              'viewBox': '0 0 24 24',
-              'aria-hidden': 'true',
-              'fill': 'currentColor',
-            },
-            children: [
-              {
-                type: 'element',
-                tagName: 'path',
-                properties: {
-                  d: 'M2.6 21.4c2 2 5.9 2.9 8.9 0l3.5-3.5-1-1-3.5 3.5c-1.4 1.4-4.2 1.9-6.4-.3s-1.8-5-.3-6.4l3.5-3.5-1-1-3.5 3.5c-3 3-2 6.9 0 8.9ZM21.4 2.6c2 2 2.9 5.9 0 8.9L17.9 15l-1-1 3.5-3.5c1.4-1.4 1.9-4.2-.3-6.4s-5-1.8-6.4-.3l-3.5 3.5-1-1 3.5-3.5c3-3 6.9-2 8.9 0Z',
-                },
-              },
-              {
-                type: 'element',
-                tagName: 'path',
-                properties: {
-                  d: 'm8.01 14.97 6.93-6.93 1.061 1.06-6.93 6.93z',
-                },
-              },
-            ],
-          },
-          properties: (el: Element) => {
-            let text = ''
-            visit(el, 'text', (textNode) => {
-              text += textNode.value
-            })
-            return {
-              className: ['heading-anchor-link'],
-              ariaLabel: text
-                ? `Link to ${text.replace(/["']/g, char => char === '"' ? '&quot;' : '&#39;')}`
-                : undefined,
-            }
-          },
-        },
-      ],
-      [
-        rehypeExternalLinks,
-        {
-          target: '_blank',
-          rel: ['nofollow', 'noopener', 'noreferrer', 'external'],
-          protocols: ['http', 'https', 'mailto'],
-        },
-      ],
-    ],
+    remarkPlugins: [remarkToc, [remarkCollapse, { test: "Table of contents" }]],
     shikiConfig: {
-      // Available themes: https://shiki.style/themes
-      themes: {
-        light: 'github-light',
-        dark: 'github-dark',
-      },
+      // For more themes, visit https://shiki.style/themes
+      themes: { light: "min-light", dark: "night-owl" },
+      wrap: true,
     },
   },
-  devToolbar: {
-    enabled: false,
+  vite: {
+    plugins: [tailwindcss()],
+    optimizeDeps: {
+      exclude: ["@resvg/resvg-js"],
+    },
   },
-})
+  image: {
+    // Used for all Markdown images; not configurable per-image
+    // Used for all `<Image />` and `<Picture />` components unless overridden with a prop
+    experimentalLayout: "responsive",
+  },
+  experimental: {
+    svg: true,
+    responsiveImages: true,
+    preserveScriptOrder: true,
+  },
+});

@@ -1,107 +1,58 @@
-:root {
-  --uno-colors-primary: theme('colors.primary');
-  --uno-colors-secondary: theme('colors.secondary');
-  --uno-colors-background: theme('colors.background');
-}
-html {
-  --at-apply: 'bg-background c-secondary antialiased';
-}
-::selection {
-  --at-apply: 'bg-mark';
+@import "tailwindcss";
+@import "./typography.css";
+
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+
+:root,
+html[data-theme="light"] {
+  --background: #fdfdfd;
+  --foreground: #282728;
+  --accent: #006cac;
+  --muted: #e6e6e6;
+  --border: #ece9e9;
 }
 
-/* Fix Flash Issue On iOS */
-body {
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
+html[data-theme="dark"] {
+  --background: #212737; /* lower contrast background */
+  --foreground: #eaedf3;
+  --accent: #ff6b01;
+  --muted: #8a3302;
+  --border: #ab4b08;
+}
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-accent: var(--accent);
+  --color-muted: var(--muted);
+  --color-border: var(--border);
 }
 
-/* Highlight Hover Animation */
-.highlight-static,
-.highlight-hover {
-  --at-apply: 'relative inline-block';
-}
-.highlight-static::after,
-.highlight-hover::after {
-  --at-apply: 'content-[""] absolute bottom-0.5em left-0 z--1 h-0.5em w-full bg-mark';
-}
-.highlight-static::after,
-.highlight-hover:hover::after {
-  --at-apply: 'origin-bottom-left scale-x-100';
-}
-.highlight-hover::after {
-  --at-apply: 'origin-bottom-right scale-x-0 transition-transform duration-300 ease-out';
-}
-
-/* View Transition with Theme Toggle >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> */
-::view-transition-new(theme-transition) {
-  animation: reveal 1s cubic-bezier(0.4, 0, 0.2, 1);
-  clip-path: inset(0 0 0 0);
-  z-index: 99;
-}
-::view-transition-old(theme-transition) {
-  animation: none;
-  z-index: -1;
-}
-@keyframes reveal {
-  from {
-    clip-path: inset(var(--from));
+@layer base {
+  * {
+    @apply border-border outline-accent/75;
+    scrollbar-width: auto;
+    scrollbar-color: var(--color-muted) transparent;
+  }
+  html {
+    @apply overflow-y-scroll scroll-smooth;
+  }
+  body {
+    @apply flex min-h-svh flex-col bg-background font-mono text-foreground selection:bg-accent/75 selection:text-background;
+  }
+  a,
+  button {
+    @apply outline-offset-1 outline-accent focus-visible:no-underline focus-visible:outline-2 focus-visible:outline-dashed;
+  }
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+  section,
+  footer {
+    @apply mx-auto max-w-3xl px-4;
   }
 }
 
-html.dark {
-  --from: 0 0 100% 0;
-}
-html:not(.dark) {
-  --from: 100% 0 0 0;
-}
-
-/* Disable animations for other elements during theme switching */
-html[data-theme-transition] [data-disable-transition-on-theme] {
-  view-transition-name: none !important;
-}
-
-/* Fallback animation when view-transition-name is not supported */
-@supports not (view-transition-name: none) {
-  html:not([data-restore-theme]) {
-    --at-apply: 'transition-colors duration-300 ease-out';
-  }
-}
-
-/* Snell Roundhand Static Font >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> */
-@font-face {
-  font-family: "Snell-Bold";
-  src: url("/fonts/Snell-Bold.woff2") format("woff2");
-  font-display: swap;
-  unicode-range: U+0030-0039,U+0041-005A,U+0061-007A,U+00C1,U+00C9,U+00CD,U+00D3,U+00DA,U+00DC,U+00D1,U+00E1,U+00E9,U+00ED,U+00F3,U+00FA,U+00FC,U+00F1,U+0410-044F,U+0401,U+0451,U+0021-002F,U+003A-0040,U+00A9;
-}
-@font-face {
-  font-family: "Snell-Black";
-  src: url("/fonts/Snell-Black.woff2") format("woff2");
-  font-display: swap;
-  unicode-range: U+0030-0039,U+0041-005A,U+0061-007A,U+00C1,U+00C9,U+00CD,U+00D3,U+00DA,U+00DC,U+00D1,U+00E1,U+00E9,U+00ED,U+00F3,U+00FA,U+00FC,U+00F1,U+0410-044F,U+0401,U+0451,U+0021-002F,U+003A-0040,U+00A9;
-}
-
-/* STIXTwoText Variable Font */
-@font-face {
-  font-family: "STIX";
-  src: url("/fonts/STIX.woff2") format("woff2-variations");
-  font-display: swap;
-  font-weight: 400 700;
-  unicode-range: U+0030-0039,U+0041-005A,U+0061-007A,U+00C1,U+00C9,U+00CD,U+00D3,U+00DA,U+00DC,U+00D1,U+00E1,U+00E9,U+00ED,U+00F3,U+00FA,U+00FC,U+00F1,U+0410-044F,U+0401,U+0451,U+0021-002F,U+003A-0040,U+00A9;
-}
-@font-face {
-  font-family: "STIX-Italic";
-  src: url("/fonts/STIX-Italic.woff2") format("woff2-variations");
-  font-display: swap;
-  font-weight: 400 700;
-  unicode-range: U+0030-0039,U+0041-005A,U+0061-007A,U+00C1,U+00C9,U+00CD,U+00D3,U+00DA,U+00DC,U+00D1,U+00E1,U+00E9,U+00ED,U+00F3,U+00FA,U+00FC,U+00F1,U+0410-044F,U+0401,U+0451,U+0021-002F,U+003A-0040,U+00A9;
-}
-
-/* Minimal Subset of EarlySummerSerif Variable Font */
-@font-face {
-  font-family: "EarlySummer-Subset";
-  src: url("/fonts/EarlySummer-Subset.woff2") format("woff2-variations");
-  font-display: swap;
-  font-weight: 400 700;
+.active-nav {
+  @apply underline decoration-wavy decoration-2 underline-offset-4;
 }

@@ -1,18 +1,13 @@
 {
   "extends": "astro/tsconfigs/strict",
+  "include": [".astro/types.d.ts", "**/*"],
+  "exclude": ["dist", "public/pagefind"],
   "compilerOptions": {
-    "lib": ["ESNext", "DOM"],
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["./src/*"]
     },
-    "allowJs": true
-  },
-  "include": [
-    "src/**/*.ts",
-    "src/**/*.astro",
-    "uno.config.ts",
-    "astro.config.ts"
-  ],
-  "exclude": ["dist"]
+    "jsx": "react-jsx",
+    "jsxImportSource": "react"
+  }
 }

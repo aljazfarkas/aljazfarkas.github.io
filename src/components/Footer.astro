@@ -1,44 +1,26 @@
 ---
-import { defaultLocale, themeConfig } from '@/config'
-import { getLangFromPath } from '@/i18n/lang'
+import Hr from "./Hr.astro";
+import Socials from "./Socials.astro";
 
-const { author } = themeConfig.site
-const { links: socialLinks, startYear } = themeConfig.footer
+const currentYear = new Date().getFullYear();
 
-const currentYear = new Date().getFullYear()
-const year = Number(startYear) === currentYear
-  ? startYear
-  : `${startYear}-${currentYear}`
+export interface Props {
+  noMarginTop?: boolean;
+}
 
-// i18n RSS Path
-const currentLang = getLangFromPath(Astro.url.pathname)
-const links = socialLinks.map((link) => {
-  if (link.name === 'RSS') {
-    return {
-      ...link,
-      url: currentLang === defaultLocale ? link.url : `/${currentLang}${link.url}`,
-    }
-  }
-  return link
-})
+const { noMarginTop = false } = Astro.props;
 ---
 
-<footer
-  class="text-3 leading-4.75 font-navbar lg:text-3.5"
-  lg="uno-desktop-column bottom-20"
->
-  <p>
-    {links.map((link, index) => (
-      <>
-        <a class="highlight-hover transition-colors hover:c-primary after:bottom-0!" href={link.url} target="_blank" rel="noopener noreferrer">
-          {link.name}
-        </a>
-        {index < links.length - 1 && ' / '}
-      </>
-    ))}
-  </p>
-
-  <p>
-    © {year} {author}
-  </p>
+<footer class:list={["w-full", { "mt-auto": !noMarginTop }]}>
+  <Hr noPadding />
+  <div
+    class="flex flex-col items-center justify-between py-6 sm:flex-row-reverse sm:py-4"
+  >
+    <Socials centered />
+    <div class="my-2 flex flex-col items-center whitespace-nowrap sm:flex-row">
+      <span>Copyright &#169; {currentYear}</span>
+      <span class="hidden sm:inline">&nbsp;|&nbsp;</span>
+      <span>All rights reserved.</span>
+    </div>
+  </div>
 </footer>
