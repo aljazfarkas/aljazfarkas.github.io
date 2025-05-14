@@ -7,8 +7,11 @@ toc: false
 description: Just a humble rant.
 tags: ['Gaming', 'Elden Ring', 'Opinion']
 ---
+![]( /images/alexander.gif )
 
-Welcome to my blog! This is a blog where I complain about lazy strength players in Elden ring, that are too afraid to use their brains and think.
+Welcome to my blog!
+
+This is a blog where I complain about lazy strength players in Elden ring, that are too afraid to use their brains and think.
 
 ## The problem
 
