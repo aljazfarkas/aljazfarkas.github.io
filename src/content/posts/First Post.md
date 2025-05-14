@@ -1,10 +1,10 @@
 ---
-title: First Post
+title: Brains win, bonks sin!
 published: 2025-03-24
 draft: false
 pin: 1
 toc: false
-description: Brains win, bonks sin!
+description: Just a humble rant.
 tags: ['Gaming', 'Elden Ring', 'Opinion']
 ---
 
