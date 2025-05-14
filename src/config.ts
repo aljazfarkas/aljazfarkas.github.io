@@ -6,7 +6,7 @@ export const themeConfig: ThemeConfig = {
     // site title
     title: 'Aljaž Farkaš',
     // site subtitle
-    subtitle: 'Curiosity kills cats',
+    subtitle: 'Curiosity kills cats.',
     // site description
     description: 'Welcome. I like backend.',
     // use i18n title/subtitle/description from src/i18n/ui.ts instead of static ones above
