@@ -8,8 +8,7 @@ draft: false
 tags:
   - Elden Ring
   - Game
-description:
-  Just a humble rant.
+description: Just a humble rant.
 ---
 
 ![](/assets/alexander.gif)
