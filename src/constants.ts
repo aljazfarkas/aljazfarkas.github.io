@@ -7,14 +7,6 @@ import IconLinkedin from "@/assets/icons/IconLinkedin.svg";
 // import IconTelegram from "@/assets/icons/IconTelegram.svg";
 // import IconPinterest from "@/assets/icons/IconPinterest.svg";
 import { SITE } from "@/config";
-import type { AstroComponentFactory } from "astro";
-
-type SocialLink = {
-  name: string;
-  href: string;
-  linkTitle: string;
-  icon: AstroComponentFactory;
-};
 
 export const SOCIALS = [
   {
@@ -37,7 +29,7 @@ export const SOCIALS = [
   },
 ] as const;
 
-export const SHARE_LINKS: SocialLink[] = [
+export const SHARE_LINKS = [
   // {
   //   name: "WhatsApp",
   //   href: "https://wa.me/?text=",
@@ -68,10 +60,10 @@ export const SHARE_LINKS: SocialLink[] = [
   //   linkTitle: `Share this post on Pinterest`,
   //   icon: IconPinterest,
   // },
-  // {
-  //   name: "Mail",
-  //   href: "mailto:?subject=See%20this%20post&body=",
-  //   linkTitle: `Share this post via email`,
-  //   icon: IconMail,
-  // },
-];
+  {
+    name: "Mail",
+    href: "mailto:?subject=See%20this%20post&body=",
+    linkTitle: `Share this post via email`,
+    icon: IconMail,
+  },
+] as const;
