@@ -1,7 +1,6 @@
 ---
 author: Aljaž Farkaš
 pubDatetime: 2025-05-15T15:22:00Z
-# modDatetime: 2025-05-15T06:25:46.734Z
 title: Brains win, bonks sin!
 slug: brains-win-bonks-sin
 featured: true
