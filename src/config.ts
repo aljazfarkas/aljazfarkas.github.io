@@ -19,4 +19,9 @@ export const SITE = {
   dynamicOgImage: true,
   lang: "en", // html lang code. Set this empty and default will be "en"
   timezone: "Europe/Ljubljana", // Default global timezone (IANA format) https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+  umami: {
+    enabled: true,
+    scriptUrl: "https://cloud.umami.is/script.js", // Replace with your Umami instance URL
+    websiteId: "94c9cad1-799b-4e75-bbc0-d0f2da971683", // Replace with your website ID from Umami
+  },
 } as const;

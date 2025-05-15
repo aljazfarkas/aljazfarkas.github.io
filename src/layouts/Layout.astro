@@ -128,6 +128,16 @@ const structuredData = {
     <ClientRouter />
 
     <script is:inline src="/toggle-theme.js"></script>
+    {
+      SITE.umami?.enabled && (
+        <script
+          async
+          defer
+          src={SITE.umami.scriptUrl}
+          data-website-id={SITE.umami.websiteId}
+        />
+      )
+    }
   </head>
   <body>
     <slot />
