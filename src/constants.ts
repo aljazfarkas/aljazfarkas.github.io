@@ -7,6 +7,14 @@ import IconLinkedin from "@/assets/icons/IconLinkedin.svg";
 // import IconTelegram from "@/assets/icons/IconTelegram.svg";
 // import IconPinterest from "@/assets/icons/IconPinterest.svg";
 import { SITE } from "@/config";
+import type { ComponentType, SVGProps } from "react";
+
+type SocialLink = {
+  name: string;
+  href: string;
+  linkTitle: string;
+  icon: ComponentType<SVGProps<SVGSVGElement>>;
+};
 
 export const SOCIALS = [
   {
@@ -29,7 +37,7 @@ export const SOCIALS = [
   },
 ] as const;
 
-export const SHARE_LINKS = [
+export const SHARE_LINKS: SocialLink[] = [
   // {
   //   name: "WhatsApp",
   //   href: "https://wa.me/?text=",
@@ -66,4 +74,4 @@ export const SHARE_LINKS = [
   //   linkTitle: `Share this post via email`,
   //   icon: IconMail,
   // },
-] as const;
+];
