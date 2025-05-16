@@ -19,7 +19,7 @@ Imagine you want to create a new user in the database.
 
 ```ts
 // File: middleware.js
-app.post('/users', async (req, res) => {
+app.post("/users", async (req, res) => {
   const user = await User.create(req.body);
   res.json(user);
 });
@@ -29,12 +29,12 @@ This works fine, but how to handle an error in case the database connection fail
 
 ```ts
 // File: middleware.js
-app.post('/users', async (req, res) => {
+app.post("/users", async (req, res) => {
   try {
     const user = await User.create(req.body);
     res.json(user);
   } catch (error) {
-    res.status(500).json({ error: 'Failed to create user' });
+    res.status(500).json({ error: "Failed to create user" });
   }
 });
 ```
@@ -47,16 +47,20 @@ We could check error messages in the middleware, and return a different status c
 
 ```ts
 // File: middleware.js
-app.post('/users', async (req, res) => {
+app.post("/users", async (req, res) => {
   try {
     const user = await User.create(req.body);
     res.json(user);
   } catch (error) {
-    if (error.message.includes('Validation failed')) {
-      return res.status(400).json({ error: 'Validation failed. Please check your input.' });
+    if (error.message.includes("Validation failed")) {
+      return res
+        .status(400)
+        .json({ error: "Validation failed. Please check your input." });
     }
 
-    res.status(500).json({ error: 'Failed to create user. Please try again later.' });
+    res
+      .status(500)
+      .json({ error: "Failed to create user. Please try again later." });
   }
 });
 ```
@@ -70,14 +74,20 @@ We could create a couple of custom error classes that would allow us to handle d
 ```ts
 // File: errors/validation-error.js
 class ValidationError extends Error {
-  constructor(message: string, public statusCode: number) {
+  constructor(
+    message: string,
+    public statusCode: number
+  ) {
     super(message);
   }
 }
 
 // File: errors/database-error.js
 class DatabaseError extends Error {
-  constructor(message: string, public statusCode: number) {
+  constructor(
+    message: string,
+    public statusCode: number
+  ) {
     super(message);
   }
 }
@@ -87,7 +97,7 @@ We would expect that `User.create` throws a `ValidationError` or `DatabaseError`
 
 ```ts
 // File: middleware.js
-app.post('/users', async (req, res) => {
+app.post("/users", async (req, res) => {
   try {
     const user = await User.create(req.body);
     res.json(user);
@@ -96,7 +106,7 @@ app.post('/users', async (req, res) => {
       return res.status(error.statusCode).json({ error: error.message });
     }
 
-    res.status(500).json({ error: 'Failed to create user' });
+    res.status(500).json({ error: "Failed to create user" });
   }
 });
 ```
@@ -107,5 +117,3 @@ Adding all this boilerplate on every route for every error type is not scalable.
 ## Global error handler
 
 We can create a global error handler that would handle all our errors.
-
-
